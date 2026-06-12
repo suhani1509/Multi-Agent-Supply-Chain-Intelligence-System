@@ -1,0 +1,9 @@
+part_id,part_name,category,stock,minimum_required,supplier,unit_price
+P001,Helical Gear Type A,Gear,150,100,Sharma Industries,450
+P002,Bearing Race B,Bearing,45,100,Ravi Suppliers,280
+P003,Clutch Shaft C,Shaft,8,50,Kumar Parts Co,890
+P004,Engine Bolt Set D,Fastener,200,80,Sharma Industries,120
+P005,Spur Gear E,Gear,90,120,Mehta Components,380
+P006,Ball Bearing F,Bearing,25,75,Ravi Suppliers,340
+P007,Rocker Arm Pin,Fastener,60,50,Sharma Industries,210
+P008,Balancer Shaft X,Shaft,3,30,Kumar Parts Co,1200

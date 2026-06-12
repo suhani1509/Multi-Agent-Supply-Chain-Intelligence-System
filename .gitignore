@@ -1,4 +1,30 @@
+# Virtual Environment
 venv/
+.venv/
+
+# IDE
 .idea/
+.vscode/
+
+# Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+
+# Environment Variables
+.env
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Reports
+reports/
+*.pdf
+
+# Logs
+*.log
+
+# OS Files
+.DS_Store
+Thumbs.d
