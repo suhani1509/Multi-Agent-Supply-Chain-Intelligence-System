@@ -1,13 +1,14 @@
 from crewai import Agent
-from langchain_google_genai import ChatGoogleGenerativeAI
+# from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
 import os
+from crewai import LLM
 
 load_dotenv()
 
-llm = ChatGoogleGenerativeAI(
-    model="gemini-2.5-flash",
-    google_api_key=os.getenv("GEMINI_API_KEY")
+llm = LLM(
+    model="gemini/gemini-2.5-flash",
+    api_key=os.getenv("GEMINI_API_KEY")
 )
 
 manager_agent = Agent(

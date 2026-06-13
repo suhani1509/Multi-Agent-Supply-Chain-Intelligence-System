@@ -1,5 +1,6 @@
 from crewai import Agent
-from langchain_google_genai import ChatGoogleGenerativeAI
+# from langchain_google_genai import ChatGoogleGenerativeAI
+from crewai import LLM
 from dotenv import load_dotenv
 import os
 
@@ -7,9 +8,9 @@ from tools.email_tool import read_vendor_emails
 
 load_dotenv()
 
-llm = ChatGoogleGenerativeAI(
-    model="gemini-2.5-flash",
-    google_api_key=os.getenv("GEMINI_API_KEY")
+llm = LLM(
+    model="gemini/gemini-2.5-flash",
+    api_key=os.getenv("GEMINI_API_KEY")
 )
 
 email_agent = Agent(
