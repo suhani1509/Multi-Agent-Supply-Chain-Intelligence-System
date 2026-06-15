@@ -32,5 +32,5 @@ inventory_agent = Agent(
 
     tools=[check_inventory],
     llm=llm,
-    verbose=True
+    verbose=False
 )

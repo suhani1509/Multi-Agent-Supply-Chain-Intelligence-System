@@ -21,5 +21,5 @@ manager_agent = Agent(
     actionable business recommendations.
     """,
     llm=llm,
-    verbose=True
+    verbose=False
 )

@@ -15,7 +15,7 @@ llm = LLM(
 
 email_agent = Agent(
     role="Email Analyst",
-    goal="Analyze vendor emails and identify supply chain issues",
+    goal="Extract facts from vendor emails. Do not infer.Do not predict.Do not create new supplier issues.",
     backstory="""
     You are an expert supply chain email analyst.
     Your job is to read vendor communications and identify
@@ -23,5 +23,5 @@ email_agent = Agent(
     """,
     tools=[read_vendor_emails],
     llm=llm,
-    verbose=True
+    verbose=False
 )
