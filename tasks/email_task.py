@@ -2,78 +2,139 @@ from crewai import Task
 from agents.email_agent import email_agent
 
 email_task = Task(
-    description="""
-    Read vendor emails using the Email Reader Tool.
+description="""
+Use the Email Reader Tool to read all vendor emails.
 
-    STRICT RULES:
-    - Use ONLY the emails returned by the tool.
-    - Do NOT invent suppliers.
-    - Do NOT invent products.
-    - Do NOT invent delays.
-    - Do NOT invent urgent requests.
-    - Do NOT invent supply chain risks.
-    - If information is not present in the emails, do not mention it.
+The emails may contain:
 
-    Identify only:
-    - Delayed shipments
-    - Urgent requests explicitly mentioned
-    - Supplier issues explicitly mentioned
+- Plain text
+- Tables
+- Shipment status reports
+- Purchase order updates
+- Courier details
+- Tracking information
 
-    Report facts only.
-    """,
+Read EVERY email completely, including all rows of any tables.
 
-    expected_output="""
-    Email Summary
-    You are an email analyst.
+IMPORTANT RULES
 
-    Read the emails carefully.
+- Use ONLY the information present in the emails.
+- Never invent suppliers, products, shipment details, delays, courier names, dates, tracking IDs, phone numbers or requests.
+- Ignore advertisements, newsletters and promotional emails.
+- If a value is missing, return "N/A".
+- If an email contains a shipment table, analyze every row separately.
+- One email can contain multiple products.
+- Treat every product as an individual shipment record.
+- Do not merge different products together.
+- Report facts exactly as written.
+""",
 
-    Return ONLY valid JSON.
+expected_output="""
+You are an expert Supply Chain Email Analyst.
 
-Categories:
+Read all vendor emails carefully.
 
-1. Delayed Orders
-- Delay Reason
-- Expected Delivery Date
-- Contact Number
+If an email contains a shipment table, extract information from every row.
 
-2. Out for Delivery
-- Portal
-- Tracking Number
-- Delivery Date
-- Contact Number
+Return a clean, professional report using Markdown tables.
 
-Ignore promotional emails.
+# DELAYED SHIPMENTS
 
-If information is missing, return null.
+| Product | Quantity Ordered | Quantity Shipped | Delay Reason | Expected Delivery | Courier | Tracking ID | Vendor Contact |
+|----------|-----------------|-----------------|--------------|------------------|----------|-------------|----------------|
+| ... |
 
+Only include products whose shipment is delayed or partially delayed.
 
-   
-    Urgent Requests:
-    
-    Only include requests where the supplier is explicitly asking
-    for immediate action, urgent delivery, urgent quotation,
-    or urgent material requirements.Dont assume urgent request . if no emails found show none 
+If none exist, write:
 
-    Do NOT classify delay notifications or production issues
-    as urgent requests.
+No delayed shipments found.
 
-    Supplier Issues:
-    - Only if explicitly present
+------------------------------------------------------
 
-    No assumptions.
-    No forecasting.
-    No invented suppliers.
-    IMPORTANT:
-    The tool returns the complete list of emails.
+# OUT FOR DELIVERY
 
-    You MUST ONLY report information present in the emails.
-    The total number of emails analyzed must match the number returned by the tool.
+| Product | Quantity | Delivery Date | Courier | Tracking ID | Vendor Contact |
+|----------|----------|---------------|----------|-------------|----------------|
+| ... |
 
-    If the tool returns 3 emails, your report must be based only on those 3 emails.
+Include only products whose shipment status is:
 
-    Do not mention any supplier, product, delay, issue, or request not explicitly present in the emails.
-    """,
+- Out for Delivery
+- Out for Delivery Today
+
+If none exist, write:
+
+No products are currently out for delivery.
+
+------------------------------------------------------
+
+# IN TRANSIT
+
+| Product | Quantity | Expected Delivery | Courier | Tracking ID | Vendor Contact |
+|----------|----------|------------------|----------|-------------|----------------|
+| ... |
+
+Include only products currently in transit.
+
+------------------------------------------------------
+
+# DELIVERED
+
+| Product | Quantity | Delivered On | Courier | Tracking ID |
+|----------|----------|--------------|----------|-------------|
+| ... |
+
+------------------------------------------------------
+
+# URGENT REQUESTS
+
+Include ONLY requests explicitly marked as:
+
+- URGENT
+- Immediate Action Required
+- Immediate Delivery Required
+- Urgent Quotation
+- Critical Material Requirement
+
+Do NOT classify shipment delays as urgent requests.
+
+If none exist, write:
+
+None.
+
+------------------------------------------------------
+
+# SUPPLIER ISSUES
+
+Extract only issues explicitly mentioned by the supplier.
+
+Examples:
+
+- Raw material shortage
+- Machine breakdown
+- Labour strike
+- Customs delay
+- Weather disruption
+- Logistics delay
+
+If none exist, write:
+
+None.
+
+------------------------------------------------------
+
+GENERAL RULES
+
+- Never hallucinate.
+- Never infer missing information.
+- Never create products that do not exist.
+- Never combine multiple rows into one.
+- Every row in a shipment table represents one shipment item.
+- If a value is unavailable, write "N/A".
+- Preserve courier names, tracking IDs, phone numbers and delivery dates exactly as written.
+- The report must contain information ONLY from the emails returned by the Email Reader Tool.
+""",
 
     agent=email_agent
 )
