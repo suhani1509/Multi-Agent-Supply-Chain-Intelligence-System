@@ -1,9 +1,61 @@
-part_id,part_name,category,stock,minimum_required,supplier,unit_price
-P001,Helical Gear Type A,Gear,150,100,Sharma Industries,450
-P002,Bearing Race B,Bearing,45,100,Ravi Suppliers,280
-P003,Clutch Shaft C,Shaft,8,50,Kumar Parts Co,890
-P004,Engine Bolt Set D,Fastener,200,80,Sharma Industries,120
-P005,Spur Gear E,Gear,90,120,Mehta Components,380
-P006,Ball Bearing F,Bearing,25,75,Ravi Suppliers,340
-P007,Rocker Arm Pin,Fastener,60,50,Sharma Industries,210
-P008,Balancer Shaft X,Shaft,3,30,Kumar Parts Co,1200
+Product_ID,Product_Name,Category,Vendor,Vendor_Email,Vendor_Contact,Minimum_Required,Current_Stock,Unit,Warehouse,Unit_Price,Lead_Time_Days
+P001,Helical Gear Type A,Gears,Sharma Industries,sharma@industries.com,+91-9876543201,120,95,Pieces,Delhi,480,7
+P002,Bearing Race B,Bearings,Ravi Suppliers,ravi@suppliers.com,+91-9876543202,200,165,Pieces,Mumbai,180,5
+P003,Clutch Shaft C,Shafts,Kumar Parts Co,kumar@partsco.com,+91-9876543203,150,28,Pieces,Pune,950,10
+P004,Drive Shaft D,Shafts,Kumar Parts Co,kumar@partsco.com,+91-9876543203,100,72,Pieces,Pune,1120,9
+P005,Spur Gear E,Gears,Mehta Components,mehta@components.com,+91-9876543204,180,140,Pieces,Delhi,420,6
+P006,Ball Bearing F,Bearings,Ravi Suppliers,ravi@suppliers.com,+91-9876543202,500,460,Pieces,Mumbai,90,4
+P007,Timing Belt G,Belts,Sharma Industries,sharma@industries.com,+91-9876543201,250,210,Pieces,Delhi,330,5
+P008,Balancer Shaft X,Shafts,Kumar Parts Co,kumar@partsco.com,+91-9876543203,75,12,Pieces,Pune,1380,12
+P009,Oil Seal A,Seals,NOK India,sales@nokindia.com,+91-9876543205,400,350,Pieces,Delhi,45,3
+P010,Oil Seal B,Seals,NOK India,sales@nokindia.com,+91-9876543205,300,285,Pieces,Delhi,48,3
+P011,Crankshaft A,Engine Parts,Bosch India,bosch@supplier.com,+91-9876543206,50,32,Pieces,Pune,5200,15
+P012,Crankshaft B,Engine Parts,Bosch India,bosch@supplier.com,+91-9876543206,40,26,Pieces,Pune,5450,15
+P013,Camshaft A,Engine Parts,TVS Components,tvs@components.com,+91-9876543207,60,45,Pieces,Delhi,2450,9
+P014,Camshaft B,Engine Parts,TVS Components,tvs@components.com,+91-9876543207,60,58,Pieces,Delhi,2500,9
+P015,Piston Kit A,Engine Parts,Mahle India,orders@mahle.com,+91-9876543208,200,190,Pieces,Chennai,1450,8
+P016,Piston Kit B,Engine Parts,Mahle India,orders@mahle.com,+91-9876543208,180,160,Pieces,Chennai,1520,8
+P017,Connecting Rod A,Engine Parts,Sundaram Fasteners,sales@sundaram.com,+91-9876543209,150,135,Pieces,Pune,720,7
+P018,Connecting Rod B,Engine Parts,Sundaram Fasteners,sales@sundaram.com,+91-9876543209,150,142,Pieces,Pune,740,7
+P019,Wheel Hub A,Chassis,Tata AutoComp,dispatch@tataautocomp.com,+91-9876543210,120,115,Pieces,Mumbai,980,8
+P020,Wheel Hub B,Chassis,Tata AutoComp,dispatch@tataautocomp.com,+91-9876543210,120,88,Pieces,Mumbai,1020,8
+P021,Disc Brake A,Brakes,Brembo India,orders@brembo.com,+91-9876543211,180,170,Pieces,Delhi,1820,8
+P022,Disc Brake B,Brakes,Brembo India,orders@brembo.com,+91-9876543211,180,168,Pieces,Delhi,1850,8
+P023,Brake Pad Set A,Brakes,Minda Industries,minda@supplier.com,+91-9876543212,600,540,Sets,Delhi,340,5
+P024,Brake Pad Set B,Brakes,Minda Industries,minda@supplier.com,+91-9876543212,550,510,Sets,Delhi,355,5
+P025,ABS Sensor A,Electronics,Bosch India,bosch@supplier.com,+91-9876543206,120,110,Pieces,Pune,890,7
+P026,ABS Sensor B,Electronics,Bosch India,bosch@supplier.com,+91-9876543206,120,104,Pieces,Pune,920,7
+P027,Fuel Pump A,Fuel System,Denso India,denso@india.com,+91-9876543213,90,82,Pieces,Chennai,2200,9
+P028,Fuel Pump B,Fuel System,Denso India,denso@india.com,+91-9876543213,90,84,Pieces,Chennai,2250,9
+P029,Fuel Injector A,Fuel System,Denso India,denso@india.com,+91-9876543213,180,176,Pieces,Delhi,1680,8
+P030,Fuel Injector B,Fuel System,Denso India,denso@india.com,+91-9876543213,180,172,Pieces,Delhi,1690,8
+P031,Radiator A,Cooling,Valeo India,valeo@supplier.com,+91-9876543214,70,60,Pieces,Pune,4200,10
+P032,Radiator B,Cooling,Valeo India,valeo@supplier.com,+91-9876543214,70,58,Pieces,Pune,4300,10
+P033,Water Pump A,Cooling,GMB India,gmb@india.com,+91-9876543215,100,95,Pieces,Mumbai,980,6
+P034,Water Pump B,Cooling,GMB India,gmb@india.com,+91-9876543215,100,88,Pieces,Mumbai,1010,6
+P035,Air Filter A,Filters,Mann Filter,mann@filter.com,+91-9876543216,700,680,Pieces,Delhi,180,4
+P036,Air Filter B,Filters,Mann Filter,mann@filter.com,+91-9876543216,650,620,Pieces,Delhi,185,4
+P037,Oil Filter A,Filters,Mann Filter,mann@filter.com,+91-9876543216,600,590,Pieces,Delhi,160,4
+P038,Oil Filter B,Filters,Mann Filter,mann@filter.com,+91-9876543216,600,565,Pieces,Delhi,165,4
+P039,Cabin Filter A,Filters,Mann Filter,mann@filter.com,+91-9876543216,250,220,Pieces,Delhi,240,4
+P040,Cabin Filter B,Filters,Mann Filter,mann@filter.com,+91-9876543216,250,210,Pieces,Delhi,245,4
+P041,Spark Plug A,Ignition,NGK India,orders@ngk.com,+91-9876543217,900,840,Pieces,Chennai,120,5
+P042,Spark Plug B,Ignition,NGK India,orders@ngk.com,+91-9876543217,900,810,Pieces,Chennai,125,5
+P043,Ignition Coil A,Ignition,Bosch India,bosch@supplier.com,+91-9876543206,150,145,Pieces,Pune,950,7
+P044,Ignition Coil B,Ignition,Bosch India,bosch@supplier.com,+91-9876543206,150,132,Pieces,Pune,980,7
+P045,Starter Motor A,Electrical,Lucas TVS,lucas@tvs.com,+91-9876543218,60,52,Pieces,Delhi,3900,10
+P046,Starter Motor B,Electrical,Lucas TVS,lucas@tvs.com,+91-9876543218,60,49,Pieces,Delhi,4100,10
+P047,Alternator A,Electrical,Lucas TVS,lucas@tvs.com,+91-9876543218,55,50,Pieces,Delhi,5200,12
+P048,Alternator B,Electrical,Lucas TVS,lucas@tvs.com,+91-9876543218,55,46,Pieces,Delhi,5350,12
+P049,Battery Module A,Electrical,Exide Industries,orders@exide.com,+91-9876543219,100,95,Pieces,Mumbai,6800,14
+P050,Battery Module B,Electrical,Exide Industries,orders@exide.com,+91-9876543219,100,92,Pieces,Mumbai,6950,14
+P051,ECU Control Unit,Electronics,Continental India,continental@supplier.com,+91-9876543220,35,30,Pieces,Pune,14500,18
+P052,Relay Module A,Electronics,Siemens India,siemens@india.com,+91-9876543221,220,205,Pieces,Delhi,260,6
+P053,Fuse Box A,Electronics,Siemens India,siemens@india.com,+91-9876543221,180,176,Pieces,Delhi,450,6
+P054,Shock Absorber A,Suspension,Monroe India,orders@monroe.com,+91-9876543222,140,130,Pieces,Chennai,1750,9
+P055,Shock Absorber B,Suspension,Monroe India,orders@monroe.com,+91-9876543222,140,118,Pieces,Chennai,1820,9
+P056,Steering Rack A,Steering,Rane Group,sales@rane.com,+91-9876543223,50,46,Pieces,Pune,8900,14
+P057,Steering Rack B,Steering,Rane Group,sales@rane.com,+91-9876543223,50,42,Pieces,Pune,9050,14
+P058,Universal Joint A,Transmission,SKF India,ravi@suppliers.com,+91-9876543202,110,98,Pieces,Mumbai,780,7
+P059,Differential Gear Set,Transmission,Sharma Industries,sharma@industries.com,+91-9876543201,80,76,Pieces,Delhi,3850,10
+P060,Axle Shaft Assembly,Transmission,Kumar Parts Co,kumar@partsco.com,+91-9876543203,70,63,Pieces,Pune,2750,12
