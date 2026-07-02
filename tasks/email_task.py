@@ -24,18 +24,36 @@ email_task = Task(
 
     expected_output="""
     Email Summary
+    You are an email analyst.
 
-    Delayed Shipments:
-    - Supplier
-    - Product
-    - Reason
-    - New Delivery Date
+    Read the emails carefully.
+
+    Return ONLY valid JSON.
+
+Categories:
+
+1. Delayed Orders
+- Delay Reason
+- Expected Delivery Date
+- Contact Number
+
+2. Out for Delivery
+- Portal
+- Tracking Number
+- Delivery Date
+- Contact Number
+
+Ignore promotional emails.
+
+If information is missing, return null.
+
 
    
     Urgent Requests:
+    
     Only include requests where the supplier is explicitly asking
     for immediate action, urgent delivery, urgent quotation,
-    or urgent material requirements.
+    or urgent material requirements.Dont assume urgent request . if no emails found show none 
 
     Do NOT classify delay notifications or production issues
     as urgent requests.
