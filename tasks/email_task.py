@@ -32,108 +32,147 @@ IMPORTANT RULES
 expected_output="""
 You are an expert Supply Chain Email Analyst.
 
-Read all vendor emails carefully.
+Analyze ONLY the emails returned by the Email Reader Tool.
 
-If an email contains a shipment table, extract information from every row.
+If an email contains shipment tables, extract EVERY row independently.
 
-Return a clean, professional report using Markdown tables.
+Do NOT merge rows.
 
-# DELAYED SHIPMENTS
+If the same product appears in multiple emails or from different vendors, include each occurrence as a separate row.
 
-| Product | Quantity Ordered | Quantity Shipped | Delay Reason | Expected Delivery | Courier | Tracking ID | Vendor Contact |
-|----------|-----------------|-----------------|--------------|------------------|----------|-------------|----------------|
+Return a clean, professional report using Markdown.
+
+=========================================================
+🚚 DELAYED SHIPMENTS
+=========================================================
+
+Include ONLY products where:
+
+- Status = Delayed
+- Status = Partially Shipped
+- Delay explicitly mentioned
+
+| Product | Vendor | Qty Ordered | Qty Shipped | Delay Reason | Expected Delivery | Courier | Tracking ID | Contact |
+|---------|--------|------------:|------------:|-------------|------------------|---------|-------------|---------|
 | ... |
 
-Only include products whose shipment is delayed or partially delayed.
-
-If none exist, write:
+If none:
 
 No delayed shipments found.
 
-------------------------------------------------------
+---------------------------------------------------------
 
-# OUT FOR DELIVERY
+🚛 OUT FOR DELIVERY
 
-| Product | Quantity | Delivery Date | Courier | Tracking ID | Vendor Contact |
-|----------|----------|---------------|----------|-------------|----------------|
-| ... |
-
-Include only products whose shipment status is:
+Include ONLY products whose status is:
 
 - Out for Delivery
 - Out for Delivery Today
 
-If none exist, write:
+| Product | Vendor | Quantity | Delivery Date | Courier | Tracking ID | Contact |
+|---------|--------|---------:|---------------|---------|-------------|---------|
+| ... |
+
+If none:
 
 No products are currently out for delivery.
 
-------------------------------------------------------
+---------------------------------------------------------
 
-# IN TRANSIT
+📦 IN TRANSIT
 
-| Product | Quantity | Expected Delivery | Courier | Tracking ID | Vendor Contact |
-|----------|----------|------------------|----------|-------------|----------------|
+Include ONLY products currently in transit in mail . dont hallucinate
+
+| Product | Vendor | Quantity | Expected Delivery | Courier | Tracking ID | Contact |
+|---------|--------|---------:|------------------|---------|-------------|---------|
 | ... |
 
-Include only products currently in transit.
+If none:
 
-------------------------------------------------------
+No products currently in transit.
 
-# DELIVERED
+---------------------------------------------------------
 
-| Product | Quantity | Delivered On | Courier | Tracking ID |
-|----------|----------|--------------|----------|-------------|
+✅ DELIVERED
+
+Include ONLY delivered products in mail . dont hallucinate
+
+| Product | Vendor | Quantity | Delivered On | Courier | Tracking ID |
+|---------|--------|---------:|--------------|---------|-------------|
 | ... |
 
-------------------------------------------------------
+If none:
 
-# URGENT REQUESTS
+No delivered shipments.
 
-Include ONLY requests explicitly marked as:
+---------------------------------------------------------
+
+🚨 URGENT REQUESTS
+
+Only include requests explicitly marked as:
 
 - URGENT
 - Immediate Action Required
 - Immediate Delivery Required
-- Urgent Quotation
 - Critical Material Requirement
+- Urgent Quotation
 
 Do NOT classify shipment delays as urgent requests.
 
-If none exist, write:
+Format:
+dont hallucinate. just consider data in mails
+
+| Vendor | Request | Action Required |
+|--------|---------|-----------------|
+| ... |
+
+If none:
 
 None.
 
-------------------------------------------------------
+---------------------------------------------------------
 
-# SUPPLIER ISSUES
+⚠ SUPPLIER ISSUES
 
-Extract only issues explicitly mentioned by the supplier.
+Include ONLY issues explicitly mentioned.
 
-Examples:
+Possible examples:
 
-- Raw material shortage
-- Machine breakdown
-- Labour strike
-- Customs delay
-- Weather disruption
-- Logistics delay
+- Machine Breakdown
+- Raw Material Shortage
+- Labour Strike
+- Customs Delay
+- Weather Disruption
+- Logistics Delay
 
-If none exist, write:
+Format:
+
+| Vendor | Issue | Impact |
+|--------|-------|--------|
+| ... |
+
+If none:
 
 None.
 
-------------------------------------------------------
+=========================================================
 
-GENERAL RULES
+STRICT RULES
 
+- Use ONLY Email Reader Tool data.
 - Never hallucinate.
+- Never estimate values.
 - Never infer missing information.
-- Never create products that do not exist.
-- Never combine multiple rows into one.
-- Every row in a shipment table represents one shipment item.
-- If a value is unavailable, write "N/A".
-- Preserve courier names, tracking IDs, phone numbers and delivery dates exactly as written.
-- The report must contain information ONLY from the emails returned by the Email Reader Tool.
+- Never create suppliers.
+- Never create products.
+- Never combine shipment rows.
+- Every shipment row must remain an individual row.
+- Preserve courier names exactly.
+- Preserve tracking IDs exactly.
+- Preserve phone numbers exactly.
+- Preserve delivery dates exactly.
+- If any value is missing, write "N/A".
+- Return ONLY the formatted report.
 """,
 
     agent=email_agent

@@ -43,7 +43,7 @@ def read_vendor_emails():
 
     results = service.users().messages().list(
         userId="me",
-        maxResults=20
+        maxResults=1
     ).execute()
 
     messages = results.get("messages", [])
