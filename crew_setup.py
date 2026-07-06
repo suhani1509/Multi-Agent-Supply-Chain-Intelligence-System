@@ -15,13 +15,13 @@ supply_chain_crew = Crew(
         email_agent,
         inventory_agent,
         manager_agent,
-        report_agent
+
     ],
     tasks=[
         email_task,
         inventory_task,
         manager_task,
-        report_task
+
     ],
     verbose=True
 )
