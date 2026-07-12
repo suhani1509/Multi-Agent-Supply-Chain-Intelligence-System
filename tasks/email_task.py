@@ -104,6 +104,19 @@ Do not imagine additional emails.
 """,
 
 expected_output="""
+
+CRITICAL VALIDATION
+
+Before writing the final answer:
+
+1. Count the number of delayed shipments in the emails.
+2. Count the number of urgent requests in the emails.
+3. Count the number of supplier issues in the emails.
+4. Verify that every row in the report exists verbatim in the Email Reader Tool output.
+5. Delete every row that cannot be traced back to the tool output.
+
+If you cannot point to the exact email line that created a row, do not include that row.
+
 You are an expert Supply Chain Email Analyst.
 
 Analyze ONLY the emails returned by the Email Reader Tool.

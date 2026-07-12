@@ -3,19 +3,19 @@ from crewai import Crew
 from agents.email_agent import email_agent
 from agents.inventory_agent import inventory_agent
 from agents.manager_agent import manager_agent
-from agents.report_agent import report_agent
+
 
 from tasks.email_task import email_task
 from tasks.inventory_task import inventory_task
 from tasks.manager_task import manager_task
-from tasks.report_task import report_task
+
 
 supply_chain_crew = Crew(
     agents=[
         email_agent,
         inventory_agent,
         manager_agent
-        
+
 
     ],
     tasks=[
