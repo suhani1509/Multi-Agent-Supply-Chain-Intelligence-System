@@ -48,49 +48,7 @@ def get_email_body(payload):
     return body
 
 
-def clean_email_body(body):
 
-    cleaned_lines = []
-
-    ignore_keywords = [
-
-        "Regards",
-        "Best regards",
-        "Thanks",
-        "Thank you",
-        "Senior Supply Chain Executive",
-        "Procurement Team",
-        "Account Manager",
-        "Customer Care",
-        "Sent from my iPhone"
-
-    ]
-
-    lines = body.split("\n")
-
-    for line in lines:
-
-        line = line.strip()
-
-        if not line:
-
-            continue
-
-        skip = False
-
-        for keyword in ignore_keywords:
-
-            if keyword.lower() in line.lower():
-
-                skip = True
-
-                break
-
-        if not skip:
-
-            cleaned_lines.append(line)
-
-    return "\n".join(cleaned_lines)
 
 
 @tool("Email Reader Tool")
@@ -109,9 +67,9 @@ def read_vendor_emails():
 
         userId="me",
 
-        maxResults=5,
+        maxResults=1
 
-        q="newer_than:30d"
+
 
     ).execute()
 
@@ -161,7 +119,7 @@ def read_vendor_emails():
 
         body = get_email_body(payload)
 
-        body = clean_email_body(body)
+
 
         output += f"""
 
