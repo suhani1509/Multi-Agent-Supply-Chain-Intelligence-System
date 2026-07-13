@@ -32,3 +32,6 @@ Thumbs.d
 
 credentials/
 token.json
+
+
+database.db

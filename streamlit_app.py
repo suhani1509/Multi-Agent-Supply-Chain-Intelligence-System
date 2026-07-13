@@ -2,6 +2,31 @@ import streamlit as st
 
 from crew_setup import supply_chain_crew
 from reports.report_generator import generate_pdf
+import sqlite3
+
+import sqlite3
+import streamlit as st
+
+
+def authenticate(email, password):
+
+    conn = sqlite3.connect("users.db")
+
+    cursor = conn.cursor()
+
+    cursor.execute(
+
+        "SELECT * FROM users WHERE email=? AND password=?",
+
+        (email, password)
+
+    )
+
+    user = cursor.fetchone()
+
+    conn.close()
+
+    return user
 
 
 st.set_page_config(
@@ -13,6 +38,56 @@ st.set_page_config(
     layout="wide"
 
 )
+
+if "logged_in" not in st.session_state:
+
+    st.session_state.logged_in = False
+
+
+if not st.session_state.logged_in:
+
+    st.title("🔐 Supply Chain Login")
+
+    email = st.text_input("Email")
+
+    password = st.text_input(
+
+        "Password",
+
+        type="password"
+
+    )
+
+    if st.button("Login"):
+
+        user = authenticate(
+
+            email,
+
+            password
+
+        )
+
+        if user:
+
+            st.session_state.logged_in = True
+
+            st.success("Login successful!")
+
+            st.rerun()
+
+        else:
+
+            st.error("Invalid email or password.")
+
+    st.stop()
+
+if st.sidebar.button("Logout"):
+    st.session_state.logged_in = False
+
+    st.rerun()
+
+
 
 st.title("📦 Multi-Agent Supply Chain Intelligence System")
 
