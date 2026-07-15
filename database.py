@@ -1,4 +1,12 @@
 import sqlite3
+import os
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
+email = os.getenv("APP_EMAIL")
+password = os.getenv("APP_PASSWORD")
 
 conn = sqlite3.connect("users.db")
 
@@ -12,13 +20,13 @@ CREATE TABLE IF NOT EXISTS users (
 )
 """)
 
-cursor.execute("""
-INSERT OR IGNORE INTO users (email, password)
-VALUES (?, ?)
-""", (
-    "supplychain.project.ai@gmail.com",
-    "35693569"
-))
+cursor.execute(
+    """
+    INSERT OR IGNORE INTO users (email, password)
+    VALUES (?, ?)
+    """,
+    (email, password)
+)
 
 conn.commit()
 
