@@ -6,7 +6,8 @@ load_dotenv()
 
 llm = LLM(
     model="groq/llama-3.3-70b-versatile",
-    api_key=os.getenv("GROQ_API_KEY")
+    api_key=os.getenv("GROQ_API_KEY"),
+    max_retries=10
 )
 
 manager_agent = Agent(
