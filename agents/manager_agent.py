@@ -4,10 +4,15 @@ import os
 
 load_dotenv()
 
+# llm = LLM(
+#     model="groq/llama-3.3-70b-versatile",
+#     api_key=os.getenv("GROQ_API_KEY"),
+#     max_retries=10
+# )
+
 llm = LLM(
-    model="groq/llama-3.3-70b-versatile",
-    api_key=os.getenv("GROQ_API_KEY"),
-    max_retries=10
+    model="cerebras/gemma-4-31b",
+    api_key=os.getenv("CEREBRAS_API_KEY")
 )
 
 manager_agent = Agent(

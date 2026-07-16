@@ -1,14 +1,9 @@
-from langchain_groq import ChatGroq
-from dotenv import load_dotenv
-import os
+from cerebras.cloud.sdk import Cerebras
 
-load_dotenv()
-
-llm = ChatGroq(
-    model="llama-3.3-70b-versatile",
-    api_key=os.getenv("GROQ_API_KEY")
+client = Cerebras(
+    api_key="csk-x6trv8e88techrx9ktnvh4tr22fxn3jd2jtc5n3n3t4crnc4"
 )
 
-response = llm.invoke("Hello")
+models = client.models.list()
 
-print(response.content)
+print(models)

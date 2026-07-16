@@ -7,25 +7,42 @@ import sqlite3
 import streamlit as st
 
 
+import bcrypt
+
+# from database import supabase
+from database import supabase, upload_report
+
 def authenticate(email, password):
 
-    conn = sqlite3.connect("users.db")
+    response = (
 
-    cursor = conn.cursor()
+        supabase
 
-    cursor.execute(
+        .table("users")
 
-        "SELECT * FROM users WHERE email=? AND password=?",
+        .select("*")
 
-        (email, password)
+        .eq("email", email)
+
+        .execute()
 
     )
 
-    user = cursor.fetchone()
+    if len(response.data) == 0:
 
-    conn.close()
+        return False
 
-    return user
+    user = response.data[0]
+
+    stored_hash = user["password_hash"]
+
+    return bcrypt.checkpw(
+
+        password.encode(),
+
+        stored_hash.encode()
+
+    )
 
 
 st.set_page_config(
@@ -70,6 +87,8 @@ if not st.session_state.logged_in:
         if user:
 
             st.session_state.logged_in = True
+
+            st.session_state.user_email = email
 
             st.success("Login successful!")
 
@@ -179,20 +198,37 @@ if st.button("🚀 Run Supply Chain Analysis", use_container_width=True):
     )
 
     with tab1:
-
         st.markdown(email_report)
 
     with tab2:
-
         st.markdown(inventory_report)
 
     with tab3:
-
         st.markdown(manager_report)
+
+    report_url = upload_report(
+
+        pdf_path,
+
+        st.session_state.user_email
+
+    )
 
     st.divider()
 
     st.subheader("📄 Download Report")
+
+    st.success(
+
+        f"PDF uploaded successfully!"
+
+    )
+
+    st.write(
+
+        report_url
+
+    )
 
     with open(pdf_path, "rb") as file:
 

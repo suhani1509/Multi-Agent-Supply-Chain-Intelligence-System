@@ -1,35 +1,68 @@
-import sqlite3
 import os
 
-from dotenv import load_dotenv
+from supabase import create_client
 
-load_dotenv()
+SUPABASE_URL = os.getenv("SUPABASE_URL")
 
-email = os.getenv("APP_EMAIL")
-password = os.getenv("APP_PASSWORD")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 
-conn = sqlite3.connect("users.db")
+supabase = create_client(
 
-cursor = conn.cursor()
+    SUPABASE_URL,
 
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    email TEXT UNIQUE,
-    password TEXT
-)
-""")
+    SUPABASE_KEY
 
-cursor.execute(
-    """
-    INSERT OR IGNORE INTO users (email, password)
-    VALUES (?, ?)
-    """,
-    (email, password)
 )
 
-conn.commit()
 
-conn.close()
+def upload_report(pdf_path, user_email):
 
-print("Database created successfully.")
+    file_name = os.path.basename(pdf_path)
+
+    with open(pdf_path, "rb") as file:
+
+        supabase.storage.from_(
+
+            "reports"
+
+        ).upload(
+
+            file_name,
+
+            file,
+
+            {
+
+                "content-type": "application/pdf"
+
+            }
+
+        )
+
+    public_url = supabase.storage.from_(
+
+        "reports"
+
+    ).get_public_url(
+
+        file_name
+
+    )
+
+    supabase.table(
+
+        "reports"
+
+    ).insert(
+
+        {
+
+            "user_email": user_email,
+
+            "report_url": public_url
+
+        }
+
+    ).execute()
+
+    return public_url
