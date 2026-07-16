@@ -31,39 +31,54 @@ If no low stock items exist, return "None".
 Return only factual information.
     """,
 expected_output="""
-Inventory Health Report
+# Inventory Health Report
 
-1. HIGH RISK INVENTORY
-Display a table with:
-- Product Name
-- Vendor
-- Minimum Required
-- Current Stock
-- Reorder Quantity
+## HIGH RISK INVENTORY
 
-Only include products whose stock is below 60% of the minimum requirement.
+Products whose stock is below 60% of the minimum required stock.
 
------------------------------------------------------
+Return ONLY a markdown table in the following format:
 
-2. MEDIUM RISK INVENTORY
-Display a table with:
-- Product Name
-- Vendor
-- Minimum Required
-- Current Stock
-- Reorder Quantity
+| Product Name | Vendor | Minimum Required | Current Stock | Reorder Quantity |
+|--------------|---------|------------------|----------------|------------------|
+| Example | Example | 100 | 20 | 80 |
 
-Only include products whose stock is between 60% and below 100% of the minimum requirement.
+Rules:
+
+- Include only products whose stock is below 60% of the minimum requirement.
+- Do not add explanations before or after the table.
+- If there are no high-risk products, write:
+
+No high-risk inventory found.
 
 -----------------------------------------------------
 
-Do not display low-risk products.
+## MEDIUM RISK INVENTORY
 
-Do not invent any products.
+Products whose stock is between 60% and below 100% of the minimum required stock.
 
-Use only the inventory data returned by the tool.
+Return ONLY a markdown table in the following format:
 
-Return the report in clean markdown tables.
+| Product Name | Vendor | Minimum Required | Current Stock | Reorder Quantity |
+|--------------|---------|------------------|----------------|------------------|
+| Example | Example | 100 | 80 | 20 |
+
+Rules:
+
+- Include only products whose stock is between 60% and below 100% of the minimum requirement.
+- Do not add explanations before or after the table.
+- If there are no medium-risk products, write:
+
+No medium-risk inventory found.
+
+-----------------------------------------------------
+
+Important:
+
+- Do not invent any products.
+- Use only the inventory data returned by the tool.
+- Return valid markdown tables only.
+- Keep all columns in the exact same order.
 """,
 
     agent=inventory_agent

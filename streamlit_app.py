@@ -100,10 +100,16 @@ if not st.session_state.logged_in:
 
     st.stop()
 
-if st.sidebar.button("Logout"):
-    st.session_state.logged_in = False
+col1, col2 = st.columns([8, 1])
 
-    st.rerun()
+with col2:
+    if st.button("🚪 Logout"):
+
+        st.session_state.logged_in = False
+
+        st.session_state.user_email = None
+
+        st.rerun()
 
 
 
@@ -202,6 +208,8 @@ if st.button("🚀 Run Supply Chain Analysis", use_container_width=True):
 
     with tab2:
         st.markdown(inventory_report)
+
+
 
     with tab3:
         st.markdown(manager_report)
