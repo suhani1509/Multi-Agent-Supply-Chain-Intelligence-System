@@ -38,7 +38,7 @@ database.db
 users.db
 
 
-
+.streamlit/secrets.toml
 
 generated_reports/
 
