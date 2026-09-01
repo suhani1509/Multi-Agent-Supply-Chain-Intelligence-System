@@ -9,52 +9,37 @@ from tools.email_tool import read_vendor_emails
 load_dotenv()
 
 # llm = LLM(
-#     model="groq/llama-3.3-70b-versatile"
-#           "",
+#     model="groq/openai/gpt-oss-120b",
 #     api_key=os.getenv("GROQ_API_KEY"),
-#     max_retries=10
+#     max_tokens=15000
 # )
 
-
 llm = LLM(
-    model="cerebras/gemma-4-31b",
-    api_key=os.getenv("CEREBRAS_API_KEY")
+    model="groq/openai/gpt-oss-120b",
+    api_key=os.getenv("GROQ_API_KEY"),
+
 )
+
+# llm = LLM(
+#     model="cerebras/gemma-4-31b",
+#     api_key=os.getenv("CEREBRAS_API_KEY")
+# )
+
+# llm = LLM(
+#     model="cerebras/gpt-oss-120b",
+#     api_key=os.getenv("CEREBRAS_API_KEY")
+# )
 
 email_agent = Agent(
     role="Email Analyst",
-    goal="Extract facts from vendor emails. Do not infer.Do not predict.Do not create new supplier issues.",
+    goal="Extract factual supply-chain information from vendor emails.",
     backstory="""
-    You are a deterministic extraction engine.
-
-    You do NOT analyze.
-
-    You do NOT summarize.
-
-    You do NOT infer.
-
-    You do NOT predict.
-
-    You do NOT generate business insights.
-
-    Your job is only to copy structured facts from vendor emails into the requested tables.
-
-    You are forbidden from adding any shipment, supplier issue, urgent request, courier, delivery date, phone number, or product that does not explicitly exist in the Email Reader Tool output.
-
-    If information is missing, output "N/A".
-
-    If a section contains no matching records, output exactly the required fallback message.
-
-    Never use external knowledge.
-
-    Never create examples.
-
-    Never complete missing information.
-
-    Treat the Email Reader Tool output as the only source of truth.
-    """
-    ,
+    You are a strict email extraction agent.
+    Use the Email Reader Tool as the only source of information.
+    Never invent, infer, predict, or estimate information.
+    """,
     tools=[read_vendor_emails],
     llm=llm,
-    verbose=False
+    allow_delegation=False,
+    verbose=True
 )

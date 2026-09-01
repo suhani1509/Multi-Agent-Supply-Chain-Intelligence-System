@@ -9,15 +9,27 @@ from tools.inventory_tool import check_inventory
 load_dotenv()
 
 # llm = LLM(
-#     model="groq/llama-3.3-70b-versatile",
+#     model="groq/openai/gpt-oss-120b",
 #     api_key=os.getenv("GROQ_API_KEY"),
-#     max_retries=10
+#     max_tokens=15000
 # )
 
 llm = LLM(
-    model="cerebras/gemma-4-31b",
-    api_key=os.getenv("CEREBRAS_API_KEY")
+    model="groq/qwen/qwen3.6-27b",
+    api_key=os.getenv("GROQ_API_KEY"),
+
 )
+
+# llm = LLM(
+#     model="cerebras/gemma-4-31b",
+#     api_key=os.getenv("CEREBRAS_API_KEY")
+# )
+
+
+# llm = LLM(
+#     model="cerebras/gpt-oss-120b",
+#     api_key=os.getenv("CEREBRAS_API_KEY")
+# )
 
 inventory_agent = Agent(
     role="Inventory Analyst",

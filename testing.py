@@ -8,14 +8,27 @@
 #
 # print(models)
 
+#
+# from dotenv import load_dotenv
+# import os
+#
+# load_dotenv()
+#
+# key = os.getenv("GROQ_API_KEY")
+#
+# print("Key exists:", key is not None)
+# print("Key starts with gsk:", key.startswith("gsk-") if key else False)
+# print("Key length:", len(key) if key else 0)
 
-from dotenv import load_dotenv
+from groq import Groq
 import os
+from dotenv import load_dotenv
 
 load_dotenv()
 
-key = os.getenv("GROQ_API_KEY")
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
-print("Key exists:", key is not None)
-print("Key starts with gsk:", key.startswith("gsk-") if key else False)
-print("Key length:", len(key) if key else 0)
+models = client.models.list()
+
+for model in models.data:
+    print(model.id)

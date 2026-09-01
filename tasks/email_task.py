@@ -2,265 +2,56 @@ from crewai import Task
 from agents.email_agent import email_agent
 
 email_task = Task(
-description="""
-Use the Email Reader Tool exactly once to retrieve vendor emails.
+    description="""
+    Use the Email Reader Tool to retrieve the vendor emails.
 
-The tool is the ONLY source of truth.
+    The tool output is the ONLY source of truth.
 
-The emails may contain:
+    Process every email and every shipment row separately.
 
-- Plain text
-- Shipment tables
-- Purchase order updates
-- Courier information
-- Tracking IDs
-- Delivery dates
-- Supplier issues
-- Urgent requests
+    Extract ONLY information explicitly present in the emails.
+    Never invent, infer, predict, estimate, merge, or assume information.
+    If a value is missing, use N/A.
+    Ignore promotional and newsletter emails.
 
-Your task is to EXTRACT information, not analyze or predict.
+    Classify shipments ONLY when the email explicitly states the status:
+    - Delayed / Partially Shipped
+    - Out for Delivery
+    - In Transit
+    - Delivered
 
-WORKFLOW
+    Include urgent requests and supplier issues ONLY when explicitly
+    mentioned in the emails.
 
-1. Read every email returned by the Email Reader Tool.
+    Return the following Markdown report:
 
-2. Process emails ONE BY ONE.
+    DELAYED SHIPMENTS
+    | Product | Vendor | Qty Ordered | Qty Shipped | Delay Reason | Expected Delivery | Courier | Tracking ID | Contact |
 
-3. Never skip any email.
+    OUT FOR DELIVERY
+    | Product | Vendor | Quantity | Delivery Date | Courier | Tracking ID | Contact |
 
-4. If an email contains a shipment table, process EVERY row separately.
+    IN TRANSIT
+    | Product | Vendor | Quantity | Expected Delivery | Courier | Tracking ID | Contact |
 
-5. Every row represents one shipment record.
+    DELIVERED
+    | Product | Vendor | Quantity | Delivered On | Courier | Tracking ID |
 
-6. Do NOT merge shipment rows.
+    URGENT REQUESTS
+    | Vendor | Request | Action Required |
 
-7. If the same product appears:
-   - in different emails,
-   - from different vendors,
-   - or multiple times,
-   treat every occurrence as a separate shipment.
+    SUPPLIER ISSUES
+    | Vendor | Issue | Impact |
 
-8. Preserve all values exactly as written.
+    If a section has no matching records, write N/A.
 
-9. If a field is missing, write "N/A".
+    Return ONLY the final report.
+    """,
 
-10. Ignore promotional, advertisement and newsletter emails.
-
-STRICTLY FORBIDDEN
-
-- Do NOT hallucinate.
-- Do NOT summarize before reading all emails.
-- Do NOT invent suppliers.
-- Do NOT invent shipment status.
-- Do NOT invent courier names.
-- Do NOT invent delivery dates.
-- Do NOT invent tracking IDs.
-- Do NOT invent quantities.
-- Do NOT invent phone numbers.
-- Do NOT invent supplier issues.
-- Do NOT invent urgent requests.
-- Do NOT classify products into delayed, in transit or delivered unless the email explicitly states that status.
-- Do NOT infer information from previous emails.
-- Do NOT combine multiple emails together.
-
-QUALITY CHECK
-
-Before producing the final report verify:
-
-✓ Every email has been processed.
-✓ Every shipment table has been processed.
-✓ Every shipment row has been extracted.
-✓ Every occurrence of the same product has been kept separately.
-✓ Every value comes directly from the emails.
-
-If any email has not been processed, continue reading before generating the report.
-
-Your final answer must contain ONLY facts explicitly present in the emails returned by the Email Reader Tool.
-CRITICAL INSTRUCTIONS
-
-The Email Reader Tool is the ONLY source of truth.
-
-Generate the report ONLY using the exact text returned by the Email Reader Tool.
-
-If a shipment, vendor, product, courier, issue or request is not explicitly present in the tool output, DO NOT include it.
-
-Never use prior knowledge.
-
-Never create examples.
-
-Never complete missing tables.
-
-Never infer additional emails.
-
-Never invent vendors.
-
-Never invent products.
-
-The final report must be a strict transformation of the Email Reader Tool output.
-
-If the Email Reader Tool returns only one email, the final report must contain information from only that email.
-
-Do not imagine additional emails.
-""",
-
-expected_output="""
-
-CRITICAL VALIDATION
-
-Before writing the final answer:
-
-1. Count the number of delayed shipments in the emails.
-2. Count the number of urgent requests in the emails.
-3. Count the number of supplier issues in the emails.
-4. Verify that every row in the report exists verbatim in the Email Reader Tool output.
-5. Delete every row that cannot be traced back to the tool output.
-
-If you cannot point to the exact email line that created a row, do not include that row.
-
-You are an expert Supply Chain Email Analyst.
-
-Analyze ONLY the emails returned by the Email Reader Tool.
-
-If an email contains shipment tables, extract EVERY row independently.
-
-Do NOT merge rows.
-
-If the same product appears in multiple emails or from different vendors, include each occurrence as a separate row.
-
-Return a clean, professional report using Markdown.
-
-=========================================================
-🚚 DELAYED SHIPMENTS
-=========================================================
-
-Include ONLY products where:
-
-- Status = Delayed
-- Status = Partially Shipped
-- Delay explicitly mentioned
-
-| Product | Vendor | Qty Ordered | Qty Shipped | Delay Reason | Expected Delivery | Courier | Tracking ID | Contact |
-|---------|--------|------------:|------------:|-------------|------------------|---------|-------------|---------|
-| ... |
-
-If none:
-
-No delayed shipments found.
-
----------------------------------------------------------
-
-🚛 OUT FOR DELIVERY
-
-Include ONLY products whose status is:
-
-- Out for Delivery
-- Out for Delivery Today
-
-| Product | Vendor | Quantity | Delivery Date | Courier | Tracking ID | Contact |
-|---------|--------|---------:|---------------|---------|-------------|---------|
-| ... |
-
-If none:
-
-No products are currently out for delivery.
-
----------------------------------------------------------
-
-📦 IN TRANSIT
-
-Include ONLY products currently in transit in mail . dont hallucinate
-
-| Product | Vendor | Quantity | Expected Delivery | Courier | Tracking ID | Contact |
-|---------|--------|---------:|------------------|---------|-------------|---------|
-| ... |
-
-If none:
-
-No products currently in transit.
-
----------------------------------------------------------
-
-✅ DELIVERED
-
-Include ONLY delivered products in mail . dont hallucinate
-
-| Product | Vendor | Quantity | Delivered On | Courier | Tracking ID |
-|---------|--------|---------:|--------------|---------|-------------|
-| ... |
-
-If none:
-
-No delivered shipments.
-
----------------------------------------------------------
-
-🚨 URGENT REQUESTS
-
-Only include requests explicitly marked as:
-
-- URGENT
-- Immediate Action Required
-- Immediate Delivery Required
-- Critical Material Requirement
-- Urgent Quotation
-
-Do NOT classify shipment delays as urgent requests.
-
-Format:
-dont hallucinate. just consider data in mails
-
-| Vendor | Request | Action Required |
-|--------|---------|-----------------|
-| ... |
-
-If none:
-
-None.
-
----------------------------------------------------------
-
-⚠ SUPPLIER ISSUES
-
-Include ONLY issues explicitly mentioned.
-
-Possible examples:
-
-- Machine Breakdown
-- Raw Material Shortage
-- Labour Strike
-- Customs Delay
-- Weather Disruption
-- Logistics Delay
-
-Format:
-
-| Vendor | Issue | Impact |
-|--------|-------|--------|
-| ... |
-
-If none:
-
-None.
-
-=========================================================
-
-STRICT RULES
-
-- Use ONLY Email Reader Tool data.
-- Never hallucinate.
-- Never estimate values.
-- Never infer missing information.
-- Never create suppliers.
-- Never create products.
-- Never combine shipment rows.
-- Every shipment row must remain an individual row.
-- Preserve courier names exactly.
-- Preserve tracking IDs exactly.
-- Preserve phone numbers exactly.
-- Preserve delivery dates exactly.
-- If any value is missing, write "N/A".
-- Return ONLY the formatted report.
-""",
+    expected_output="""
+    A Markdown supply-chain report containing only facts explicitly
+    present in the Email Reader Tool output. No hallucinated or inferred data.
+    """,
 
     agent=email_agent
 )
