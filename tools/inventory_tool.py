@@ -2,7 +2,7 @@ from crewai.tools import tool
 import pandas as pd
 
 
-@tool("Inventory Checker Tool")
+@tool("check_inventory")
 def check_inventory():
     """
     Reads inventory CSV and identifies low stock items.
